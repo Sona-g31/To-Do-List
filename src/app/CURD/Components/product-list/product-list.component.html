@@ -1,0 +1,73 @@
+<div class="task-manager mt-5">
+  <h1 class="header text-center">To-Do-List App</h1>
+  <div class="actions-bar d-flex justify-content-between mb-3">
+    <a routerLink="/add" class="btn-add-task text-decoration-none"
+      >Add New Task</a
+    >
+    <button class="btn-refresh" (click)="refreshTasks()">Refresh</button>
+  </div>
+
+  <!-- Search Bar -->
+  <div class="search-bar mb-3">
+    <input
+      type="text"
+      class="search-input"
+      placeholder="Search tasks..."
+      [(ngModel)]="searchTerm"
+      (input)="filterTasks()"
+    />
+  </div>
+
+  <div class="task-table">
+    <table>
+      <thead>
+        <tr>
+          <th>Assigned To</th>
+          <th>Status</th>
+          <th>Due Date</th>
+          <th>Priority</th>
+          <th>Comments</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let task of paginatedTasks">
+          <td>{{ task.assignedTo }}</td>
+          <td>{{ task.status }}</td>
+          <td>{{ task.dueDate | date : "shortDate" }}</td>
+          <td>{{ task.priority }}</td>
+          <td>{{ task.comments }}</td>
+          <td class="actions">
+            <button class="btn-delete" (click)="deleteTask(task.id)">
+              Delete
+            </button>
+            <a
+              [routerLink]="['/edit', task.id]"
+              class="btn-edit text-decoration-none"
+              >Edit</a
+            >
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Pagination Controls -->
+  <div class="pagination-controls d-flex justify-content-between">
+    <button
+      class="btn-pagination"
+      (click)="previousPage()"
+      [disabled]="currentPage === 1"
+    >
+      Previous
+    </button>
+    <span>Page {{ currentPage }} of {{ totalPages }}</span>
+    <button
+      class="btn-pagination"
+      (click)="nextPage()"
+      [disabled]="currentPage === totalPages"
+    >
+      Next
+    </button>
+  </div>
+</div>
